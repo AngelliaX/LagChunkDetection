@@ -9,7 +9,6 @@
 
 // add headers that you want to pre-compile here
 #include <iostream>
-//onProgressing()
 #include <mc/Player.h>
 #include <api/Basic_Event.h>
 #include <mc/Command.h>
@@ -17,6 +16,4 @@
 #include <api/regCommandHelper.h>
 #include <map>
 #include <mc/OffsetHelper.h>
-#include <ezmc\Level\LevelData.h>
-//
 #endif //PCH_H

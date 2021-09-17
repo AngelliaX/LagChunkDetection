@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{48ef7195-f0b1-4f9a-8daa-0dfaa207e4b1}</ProjectGuid>
+    <ProjectGuid>{cadca713-abf1-4fa3-999f-a1597c510201}</ProjectGuid>
     <RootNamespace>LagChunkDetection</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -154,13 +154,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ChunkTickHeader.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Header.h" />
+    <ClInclude Include="GlobalVar.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="LagChunkDetection.cpp" />
+    <ClCompile Include="loadConfig.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -169,7 +171,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="lib\LiteLoader.lib" />
+    <Library Include="..\lib\LiteLoader.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
-#include"loader/Loader.h"
-#include "Header.h"
+#include "GlobalVar.h"
+
+#include "loader/Loader.h"
+#include "ChunkTickHeader.h"
 size_t totalRound = 100;
 size_t currentRound = 0;
 THook(void, "?tick@LevelChunk@@QEAAXAEAVBlockSource@@AEBUTick@@@Z", void* levelChunk, class BlockSource* blockSource, size_t* tick) {
@@ -16,57 +18,69 @@ THook(void, "?tick@LevelChunk@@QEAAXAEAVBlockSource@@AEBUTick@@@Z", void* levelC
 
 std::unordered_map<string, int> playersDim;
 std::unordered_map<string, Vec3> playersVec3;
-int maxFar = 128;//128 block
 Minecraft* mc;
-Vec3 spawnPoint;
-void onProgressing() {
+
+void onProgressing() { //called after you have the chunkTick value
     for (Player* pl : liteloader::getAllPlayers())
     {
-        WPlayer player = WPlayer{ *pl };
-        if(false){ 
+        WPlayer player = WPlayer{ *pl };   
+        if (false) { //chunktick value comparision
             //execute when there is no laggy chunk
             return;
         }
-        //execute when a laggy chunk is detected
-        if (playersDim.find(player.getName())->first == "") {
-            //Call when the player is not inside any map (new log in)
-            //teleport to spawn
-        }
-        //check dimension
-        if (player.getDimID() != playersDim.find(player.getName())->second) {
-            //teleport to spawn
-        }
+        bool checkX = abs(pl->getPos().x - playersVec3.find(player.getRealName())->second.x) > maxFar;
+        bool checkY = abs(pl->getPos().y - playersVec3.find(player.getRealName())->second.y) > maxFar;
         int dim = player.getDimID();
-        std::cout << dim;
-
-        //player.teleport(spawnPoint, dim);
-        player.teleport(pl->getPos(), dim);
-        return;
-        //compare coord;
-        bool checkX = abs(pl->getPos().x - playersVec3.find(player.getName())->second.x) > maxFar;
-        bool checkY = abs(pl->getPos().y - playersVec3.find(player.getName())->second.y) > maxFar;
-        if (checkX or checkY) {
-            //teleport to spawn
+        Vec3 pos;
+        pos.x = 0;
+        pos.y = 200;
+        pos.z = 0;
+        
+        //execute when a laggy chunk is detected
+        if (playersDim.find(player.getRealName()) == playersDim.end()) {
+            std::cout << "Player not found" << "\n";
+            player.teleport(pos, dim);
+            goto end;
+        }  
+        //check dimension
+        dim = playersDim.find(player.getRealName())->second;
+        if (player.getDimID() != dim) {
+            std::cout << "Dim is not corresponding" << "\n";
+            player.teleport(pos, dim);
+            goto end;
         }
+        //compare coord;
+         if (checkX or checkY) {
+             player.sendText("You may be causing some lag, teleporting to spawn...");
+             std::cout << "Teleport player" << "\n";
+             player.teleport(pos, dim);
+        }
+        end:
+        std::cout << player.getRealName() << "\n";
+        playersDim[player.getRealName()] = dim;
+        playersVec3[player.getRealName()] = pl->getPos();
+        std::cout << "added to var \n";
+        return;
+        
     }
 }
-bool oncmd_wow(CommandOrigin const& ori, CommandOutput& outp, string const& str, optional<int>& str2) {
-    outp.addMessage(str);
+bool onCMD(CommandOrigin const& ori, CommandOutput& outp, optional<int>& str, optional<int>& str2) {
     onProgressing();
     return true;
 }
-void entry() {
-    Level* level = mc->getLevel();
+
+void getSpawnPoint() {
+    /*Level* level = mc->getLevel();
     LevelData* levelData = SymCall("?getLevelData@Level@@UEBAAEBVLevelData@@XZ", LevelData*, Level*)(level);
-    spawnPoint.x = levelData->getSpawnPos().x;
-    spawnPoint.y = levelData->getSpawnPos().y;
-    spawnPoint.z = levelData->getSpawnPos().z;
-
-
-    std::cout << "Hello World\n";
+    levelData->getSpawnPos();*/
+}
+void loadConfig();
+void entry() {
+    loadConfig();
+    getSpawnPoint();
     Event::addEventListener([](RegCmdEV ev) {
         CMDREG::SetCommandRegistry(ev.CMDRg);
-        MakeCommand("wow", "awesome", 0);//注册指令
-        CmdOverload(wow, oncmd_wow, "input", "optinal");//重载指令
-        });
+        MakeCommand("lagchunkdetection", "awesome", 0);//注册指令
+        CmdOverload(lagchunkdetection, onCMD, "input", "optinal");//重载指令
+    });
 }

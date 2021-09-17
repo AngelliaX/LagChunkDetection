@@ -21,7 +21,10 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h">
+    <ClInclude Include="ChunkTickHeader.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalVar.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,8 +38,11 @@
     <ClCompile Include="LagChunkDetection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="loadConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="lib\LiteLoader.lib" />
+    <Library Include="..\lib\LiteLoader.lib" />
   </ItemGroup>
 </Project>
