@@ -11,3 +11,4 @@ typedef std::chrono::high_resolution_clock timer_clock;
 
 typedef long long microsecond_t;
 microsecond_t chunkTickTime = 0;
+microsecond_t chunkTickResult = 0;
