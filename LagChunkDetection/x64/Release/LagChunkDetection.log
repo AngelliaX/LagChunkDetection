@@ -30,11 +30,13 @@ C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagC
           [
               _Ty=int
           ]
-C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(118,36): warning C4244: '=': conversion from 'float' to 'microsecond_t', possible loss of data
+C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(97,18): warning C4129: '|': unrecognized character escape sequence
+C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(97,18): warning C4129: '_': unrecognized character escape sequence
+C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(140,36): warning C4244: '=': conversion from 'float' to 'microsecond_t', possible loss of data
      Creating library C:\Users\namxm\OneDrive\Máy tính\File\bedrock-server\plugins\LagChunkDetection.lib and object C:\Users\namxm\OneDrive\Máy tính\File\bedrock-server\plugins\LagChunkDetection.exp
   Generating code
-  60 of 1461 functions ( 4.1%) were compiled, the rest were copied from previous compilation.
-    41 functions were new in current compilation
-    44 functions had inline decision re-evaluated but remain unchanged
+  76 of 1506 functions ( 5.0%) were compiled, the rest were copied from previous compilation.
+    74 functions were new in current compilation
+    3 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   LagChunkDetection.vcxproj -> C:\Users\namxm\OneDrive\Máy tính\File\bedrock-server\plugins\LagChunkDetection.dll

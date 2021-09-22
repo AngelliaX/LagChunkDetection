@@ -61,9 +61,19 @@ void onProgressing() { //called after you have the chunkTick value
         }
     }
 }
-bool onCMD(CommandOrigin const& ori, CommandOutput& outp, string const& str, int const& str2) {
+bool onCMD(CommandOrigin const& ori, CommandOutput& outp) {
+    WPlayer player = MakeWP(ori).val();
+    player.sendText("§c==================");
+    player.sendText("§bLag§6Chunk§aDetection §fversion 1.0");
+    player.sendText("§fmade by Tungstenvn aka Hello你好");
+    player.sendText("§c==================");
+    return true;
+}
+bool admin_Command(CommandOrigin const& ori, CommandOutput& outp, string const& str, int const& str2) {
+    WPlayer player = MakeWP(ori).val();
     if (str == "maxchunktick") {
         maxChunkTick = str2;
+        player.sendText("§aChange maxChunkTick value to §c" + std::to_string(str2) + "§a successfully");
     }
     return true;
 }
@@ -79,10 +89,16 @@ void entry() {
     getSpawnPoint();
     Event::addEventListener([](RegCmdEV ev) {
         CMDREG::SetCommandRegistry(ev.CMDRg);
-        MakeCommand("lcd", "Detect whether there is any lag chunk or not", 0);//注册指令
-        CmdOverload(lcd, onCMD, "input", "optinal");//重载指令
+        MakeCommand("lcd", "§aDetect whether there is any lag chunk or not", 0);
+        CmdOverload(lcd, onCMD);
+        MakeCommand("lcdset", "§cAdmin only", 1);
+        CmdOverload(lcdset, admin_Command, "category", "value");
     });
+    std::cout << "  _                  _____ _                 _    \n | |                / ____| |               | |   \n | |     __ _  __ _| |    | |__  _   _ _ __ | | __\n| |    / _` |/ _` | |    | '_ \| | | | '_ \| |/ /\n | |___| (_| | (_| | |____| | | | |_| | | | |   < \n |______\__,_|\__, |\_____|_| |_|\__,_|_| |_|_|\_\\\n               __/ |                              \n              |___/                               \n";
+    std::cout << "                         made by Hello你好 x People\n";
 }
+
+
 int timePass = 0;
 bool isCheck = false;
 bool isFinishChecking;
@@ -106,21 +122,27 @@ THook(void, "?tick@Level@@UEAAXXZ", class Level* lv) {
 }
 size_t totalRound = 100;
 size_t currentRound = 0;
+
+THook(void, "?tick@ServerLevel@@UEAAXXZ", class Level* serverLevel) {
+    original(serverLevel);
+    if (isCheck) {
+        currentRound++;
+    }
+}
 THook(void, "?tick@LevelChunk@@QEAAXAEAVBlockSource@@AEBUTick@@@Z", void* levelChunk, class BlockSource* blockSource, size_t* tick) {
     if (isCheck) {
         TIMER_START
             original(levelChunk, blockSource, tick);
         TIMER_END
-            auto rounds = static_cast<float>(1000);
-        chunkTickTime += timeReslut;
-        currentRound++;
+            auto rounds = static_cast<float>(totalRound*1000);
+        chunkTickTime += timeReslut; 
         if (currentRound >= totalRound) {
             chunkTickResult = round(chunkTickTime / rounds);
             std::cout << chunkTickTime / rounds << "ms\n";
             currentRound = 0;
-            chunkTickTime = 0;
-            isFinishChecking = true;
+            chunkTickTime = 0;        
             isCheck = false;
+            isFinishChecking = true;
         }
     }
     else {
