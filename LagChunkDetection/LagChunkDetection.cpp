@@ -7,6 +7,7 @@ std::unordered_map<string, int> playersDim;
 std::unordered_map<string, Vec3> playersVec3;
 Minecraft* mc;
 void onProgressing() { //called after you have the chunkTick value
+    int teleportedNum = 0;
     for (Player* pl : liteloader::getAllPlayers())
     {
         WPlayer player = WPlayer{ *pl };   
@@ -24,30 +25,46 @@ void onProgressing() { //called after you have the chunkTick value
         //check if the variable contains current player
         if (playersDim.find(player.getRealName()) == playersDim.end()) {
             player.sendText(warn_message);          
-            player.teleport(pos, dim);
+            player.teleport(pos, spawnDim);
+            teleportedNum++;
             goto end;
         }  
         //check dimension
         dim = playersDim.find(player.getRealName())->second;
         if (player.getDimID() != dim) {
             player.sendText(warn_message);
-            std::cout << "Dim is not corresponding" << "\n";
-            player.teleport(pos, dim);
+            player.teleport(pos, spawnDim);
+            teleportedNum++;
             goto end;
         }
         //compare coord;
         if (checkX or checkY) {
-            player.sendText(warn_message);;
-            std::cout << "Teleport player" << "\n";
-            player.teleport(pos, dim);
-        }
+            player.sendText(warn_message);
+            player.teleport(pos, spawnDim);
+            teleportedNum++;
+        }    
         end:
         playersDim[player.getRealName()] = dim;
-        playersVec3[player.getRealName()] = pl->getPos();
+        playersVec3[player.getRealName()] = pl->getPos();     
+    }
+    if (chunkTickResult >= maxChunkTick) { //chunktick value comparision
+        if (teleportedNum == 0) {
+            Vec3 pos;
+            pos.x = spawnPos[0];
+            pos.y = spawnPos[1];
+            pos.z = spawnPos[2];
+            for (Player* pl : liteloader::getAllPlayers()) {
+                WPlayer player = WPlayer{ *pl };
+                player.sendText(warn_message);
+                player.teleport(pos, spawnDim);
+            }
+        }
     }
 }
-bool onCMD(CommandOrigin const& ori, CommandOutput& outp, optional<int>& str, optional<int>& str2) {
-    onProgressing();
+bool onCMD(CommandOrigin const& ori, CommandOutput& outp, string const& str, int const& str2) {
+    if (str == "maxchunktick") {
+        maxChunkTick = str2;
+    }
     return true;
 }
 
@@ -77,15 +94,14 @@ THook(void, "?tick@Level@@UEAAXXZ", class Level* lv) {
             isCheck = true;
         }
         if (isFinishChecking) {
-            timePass = 0;
-            isCheck = false;
+            timePass = 0;           
             isFinishChecking = false;
-            std::cout << "ChunkTick value: " << chunkTickResult << " ms\n";
+            std::cout << "==========ChunkTick value: " << chunkTickResult << " ms\n";
             onProgressing();
         }
     }
     else {
-        std::cout << "====\n";
+        //std::cout << "====\n";
     }
 }
 size_t totalRound = 100;
@@ -104,10 +120,10 @@ THook(void, "?tick@LevelChunk@@QEAAXAEAVBlockSource@@AEBUTick@@@Z", void* levelC
             currentRound = 0;
             chunkTickTime = 0;
             isFinishChecking = true;
+            isCheck = false;
         }
     }
     else {
         original(levelChunk, blockSource, tick);
     }
-
 }

@@ -1,10 +1,5 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(499,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   LagChunkDetection.cpp
-C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(21,27): warning C4244: '=': conversion from '_Ty' to 'float', possible loss of data
-          with
-          [
-              _Ty=int
-          ]
 C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(22,27): warning C4244: '=': conversion from '_Ty' to 'float', possible loss of data
           with
           [
@@ -15,11 +10,31 @@ C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagC
           [
               _Ty=int
           ]
-C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(102,36): warning C4244: '=': conversion from 'float' to 'microsecond_t', possible loss of data
+C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(24,27): warning C4244: '=': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(53,31): warning C4244: '=': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(54,31): warning C4244: '=': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(55,31): warning C4244: '=': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\namxm\OneDrive\Máy tính\File\LagChunkDetection\LagChunkDetection\LagChunkDetection.cpp(118,36): warning C4244: '=': conversion from 'float' to 'microsecond_t', possible loss of data
      Creating library C:\Users\namxm\OneDrive\Máy tính\File\bedrock-server\plugins\LagChunkDetection.lib and object C:\Users\namxm\OneDrive\Máy tính\File\bedrock-server\plugins\LagChunkDetection.exp
   Generating code
-  19 of 1457 functions ( 1.3%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    4 functions had inline decision re-evaluated but remain unchanged
+  60 of 1461 functions ( 4.1%) were compiled, the rest were copied from previous compilation.
+    41 functions were new in current compilation
+    44 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   LagChunkDetection.vcxproj -> C:\Users\namxm\OneDrive\Máy tính\File\bedrock-server\plugins\LagChunkDetection.dll
